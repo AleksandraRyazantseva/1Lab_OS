@@ -1,0 +1,86 @@
+using System;
+using System.IO;
+using System.IO.Compression;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        string sourceFolder = @"C:\Users\student\Desktop\ABC\";
+        string zipFile = @"C:\Users\student\Desktop\ABC1.zip";
+        string targetFolder = @"C:\Users\student\Desktop\ABC_new";
+        string zipFile1 = @"C:\Users\student\Desktop\ABC_new.zip";
+        string targetFolder1 = @"C:\Users\student\Desktop\ABC_new";
+
+        ZipFile.CreateFromDirectory(sourceFolder, zipFile);
+        ZipFile.ExtractToDirectory(zipFile, targetFolder);
+
+        string path1 = @"C:\Users\student\Desktop\ABC1.zip";
+        FileInfo fileInf1 = new FileInfo(path1);
+        if (fileInf1.Exists)
+        {
+            fileInf1.Delete();
+        }
+        Console.WriteLine("Файл Test переместится в папку АВС после нажатия ENTER");
+        string enter = Console.ReadLine();
+
+        if (enter == "")
+        {
+            string path = @"C:\Users\student\Desktop\Test.txt";
+            string newPath = @"C:\Users\student\Desktop\ABC\Test.txt";
+            FileInfo fileInf = new FileInfo(path);
+            if (fileInf.Exists)
+            {
+                fileInf.MoveTo(newPath);
+            }
+        }
+        ZipFile.CreateFromDirectory(sourceFolder, zipFile1);
+        Console.WriteLine($"Папка{sourceFolder}архивирована в файл{zipFile1}");
+       
+            string path4 = @"C:\Users\student\Desktop\ABC_new.zip";
+            FileInfo fileInf4 = new FileInfo(path4);
+            if (fileInf4.Exists)
+            {
+                Console.WriteLine("Размер папки ABC_new.zip после архивации: {0}", fileInf4.Length);
+            }
+        ZipFile.ExtractToDirectory(zipFile1, targetFolder1);
+        Console.WriteLine($"Файл{zipFile1}распакован в папку{targetFolder1}");
+
+        string dirName = @"C:\Users\student\Desktop\ABC_new";
+        DirectoryInfo dirInfo = new DirectoryInfo(dirName);
+
+        Console.WriteLine($"Название каталога: {dirInfo.Name}");
+        Console.WriteLine($"Полное название каталога: {dirInfo.FullName}");
+        Console.WriteLine($"Время создания каталога: {dirInfo.CreationTime}");
+        Console.WriteLine($"Корневой каталог: {dirInfo.Root}");
+        Console.WriteLine("Файлы:");
+        string[] files = Directory.GetFiles(dirName);
+        foreach (string s in files)
+        {
+            Console.WriteLine(s);
+            string path3 = @"C:\Users\student\Desktop\ABC_new\Test.txt";
+            FileInfo fileInf = new FileInfo(path3);
+            if (fileInf.Exists)
+            {
+                Console.WriteLine("Размер файла Test после разархивации: {0}", fileInf.Length);
+            }
+
+        }
+        Console.WriteLine("Все папки и файл .zip удалятся после нажатия ENTER");
+        string enter1 = Console.ReadLine();
+        if (enter1 == "")
+        {
+            string path2 = @"C:\Users\student\Desktop\ABC_new.zip";
+            FileInfo fileInf2 = new FileInfo(path2);
+            if (fileInf2.Exists)
+            {
+                fileInf2.Delete();
+            }
+            string dirName1 = @"C:\Users\student\Desktop\ABC";
+            Directory.Delete(dirName1, true);
+            string dirName2 = @"C:\Users\student\Desktop\ABC_new";
+            Directory.Delete(dirName2, true);
+        }
+    }
+
+}
