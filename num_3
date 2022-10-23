@@ -1,0 +1,46 @@
+using System;
+using System.IO;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+namespace HelloApp
+{
+    class Person
+    {
+        public string info { get; set; }
+        public string time { get; set; }
+    }
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            Console.WriteLine("Введите информацию для записи > ");
+            string text = Console.ReadLine();
+            Console.WriteLine("Введите время для записи> ");
+            string text2 = Console.ReadLine();
+            using (FileStream fs = new FileStream(@"C:\Users\student\Desktop\ABC.json", FileMode.OpenOrCreate))
+            {
+                Person chel = new Person() { info = text, time = text2 };
+                await JsonSerializer.SerializeAsync<Person>(fs, chel);
+                Console.WriteLine("Данные были записаны в файл");
+            }
+
+            using (FileStream fs = new FileStream(@"C:\Users\student\Desktop\ABC.json", FileMode.OpenOrCreate))
+            {
+                Person restoredPerson = await JsonSerializer.DeserializeAsync<Person>(fs);
+                Console.WriteLine($"info: {restoredPerson.info}  time: {restoredPerson.time}");
+            }
+            string path1 = @"C:\Users\student\Desktop\ABC.json";
+            FileInfo fileInf = new FileInfo(path1);
+            Console.WriteLine("Файл будет удален после нажатия клавишы ENTER");
+            string enter = Console.ReadLine();
+            if (enter == "")
+            {
+                if (fileInf.Exists)
+                {
+                    fileInf.Delete();
+                }
+            }
+        }
+    }
+}
